@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upsmonitor
+spec:
+  selector:
+    matchLabels:
+      app: upsmonitor
+  template:
+    metadata:
+      labels:
+        app: upsmonitor
+    spec:
+      nodeSelector:
+        name: biehler
+      containers:
+      - name: ups-server
+        image: upshift/nut-upsd
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3493
+        volumeMounts:
+        - mountPath:  /dev/bus/usb/001/001
+          name: hid
+        env:
+        - name: UPS_DRIVER
+          value: blazer_usb
+        securityContext:
+          privileged: true
+          runAsNonRoot: false
+
+      - name: ups-web
+        image: teknologist/webnut:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6543
+      volumes:
+      - name: hid
+        hostPath:
+          path:  /dev/bus/usb/003/003
