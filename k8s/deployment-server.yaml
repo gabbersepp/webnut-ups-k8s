@@ -28,12 +28,6 @@ spec:
         securityContext:
           privileged: true
           runAsNonRoot: false
-
-      - name: ups-web
-        image: teknologist/webnut:latest
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 6543
       volumes:
       - name: hid
         hostPath:

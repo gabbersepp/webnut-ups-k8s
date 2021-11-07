@@ -4,7 +4,7 @@ metadata:
   name: upsmonitor-service
 spec:
   selector:
-    app: upsmonitor
+    app: upsmonitor-web
   type: ClusterIP
   ports:
   - port: 6543

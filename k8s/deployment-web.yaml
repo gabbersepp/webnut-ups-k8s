@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: upsmonitor-web
+spec:
+  selector:
+    matchLabels:
+      app: upsmonitor-web
+  template:
+    metadata:
+      labels:
+        app: upsmonitor-web
+    spec:
+      containers:
+      - name: ups-web
+        image: teknologist/webnut:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6543
+        env:
+        - name: UPS_HOST
+          value: upsmonitor-server-service
+        volumeMounts:
+        - name: config
+          mountPath: /app/webNUT/production.ini
+          subPath: production.ini
+      volumes:
+      - name: config
+        configMap:
+          name: production-ini
+          items:
+            - key: production.ini
+              path: production.ini
