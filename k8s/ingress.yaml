@@ -1,24 +1,29 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: upsmonitor-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/whitelist-source-range:  192.168.2.0/24
-    nginx.ingress.kubernetes.io/upstream-vhost: "192.168.2.126" # ip of node :-(
 spec:
   rules:
   - host: ups.h5b.de
     http:
       paths:
       - path: /
+        pathType: ImplementationSpecific
         backend:
-          serviceName: upsmonitor-service
-          servicePort: 6543
+          service:
+            name: upsmonitor-service
+            port:
+              number: 6543
   - host: www.ups.h5b.de
     http:
       paths:
       - path: /
+        pathType: ImplementationSpecific
         backend:
-          serviceName: upsmonitor-service
-          servicePort: 6543
+          service:
+            name: upsmonitor-service
+            port:
+              number: 6543
