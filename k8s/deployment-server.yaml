@@ -12,7 +12,7 @@ spec:
         app: upsmonitor
     spec:
       nodeSelector:
-        name: biehler
+        name: biehler2
       containers:
       - name: ups-server
         image: upshift/nut-upsd
