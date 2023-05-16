@@ -13,6 +13,7 @@ spec:
     spec:
       nodeSelector:
         name: biehler2
+      hostNetwork: true
       containers:
       - name: ups-server
         image: upshift/nut-upsd
